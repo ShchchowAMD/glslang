@@ -100,11 +100,11 @@ struct OpDecorations {
     spv::Decoration precision;
 
 #ifdef GLSLANG_WEB
-        void addNoContraction(spv::Builder&, spv::Id) const { };
-        void addNonUniform(spv::Builder&, spv::Id) const { };
+        void addNoContraction(spv::Builder&, spv::Id) const { }
+        void addNonUniform(spv::Builder&, spv::Id) const { }
 #else
-        void addNoContraction(spv::Builder& builder, spv::Id t) { builder.addDecoration(t, noContraction); };
-        void addNonUniform(spv::Builder& builder, spv::Id t)  { builder.addDecoration(t, nonUniform); };
+        void addNoContraction(spv::Builder& builder, spv::Id t) { builder.addDecoration(t, noContraction); }
+        void addNonUniform(spv::Builder& builder, spv::Id t)  { builder.addDecoration(t, nonUniform); }
     protected:
         spv::Decoration noContraction;
         spv::Decoration nonUniform;
@@ -6273,6 +6273,13 @@ spv::Id TGlslangToSpvTraverser::createConversion(glslang::TOperator op, OpDecora
     case glslang::EOpConvPtrToUint64:
         convOp = spv::OpConvertPtrToU;
         break;
+    case glslang::EOpConvPtrToUvec2:
+    case glslang::EOpConvUvec2ToPtr:
+        if (builder.isVector(operand))
+            builder.promoteIncorporatedExtension(spv::E_SPV_EXT_physical_storage_buffer,
+                                                 spv::E_SPV_KHR_physical_storage_buffer, spv::Spv_1_5);
+        convOp = spv::OpBitcast;
+        break;
 #endif
 
     default:
@@ -6394,7 +6401,7 @@ spv::Id TGlslangToSpvTraverser::createAtomicOperation(glslang::TOperator op, spv
         scopeId = builder.makeUintConstant(spv::ScopeDevice);
     }
     // semantics default to relaxed 
-    spv::Id semanticsId = builder.makeUintConstant(lvalueCoherentFlags.isVolatile() ? 
+    spv::Id semanticsId = builder.makeUintConstant(lvalueCoherentFlags.isVolatile() && glslangIntermediate->usingVulkanMemoryModel() ?
                                                     spv::MemorySemanticsVolatileMask :
                                                     spv::MemorySemanticsMaskNone);
     spv::Id semanticsId2 = semanticsId;
@@ -6832,8 +6839,9 @@ spv::Id TGlslangToSpvTraverser::createSubgroupOperation(glslang::TOperator op, s
     default: assert(0 && "Unhandled subgroup operation!");
     }
 
-    const bool isUnsigned = typeProxy == glslang::EbtUint || typeProxy == glslang::EbtUint64;
-    const bool isFloat = typeProxy == glslang::EbtFloat || typeProxy == glslang::EbtDouble;
+
+    const bool isUnsigned = isTypeUnsignedInt(typeProxy);
+    const bool isFloat = isTypeFloat(typeProxy);
     const bool isBool = typeProxy == glslang::EbtBool;
 
     spv::Op opCode = spv::OpNop;

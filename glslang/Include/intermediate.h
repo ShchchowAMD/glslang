@@ -275,6 +275,10 @@ enum TOperator {
     EOpConvUint64ToPtr,
     EOpConvPtrToUint64,
 
+    // uvec2 <-> pointer
+    EOpConvUvec2ToPtr,
+    EOpConvPtrToUvec2,
+
     //
     // binary operations
     //
@@ -1185,6 +1189,7 @@ public:
     virtual void traverse(TIntermTraverser*);
     TOperator getFlowOp() const { return flowOp; }
     TIntermTyped* getExpression() const { return expression; }
+    void setExpression(TIntermTyped* pExpression) { expression = pExpression; }
 protected:
     TOperator flowOp;
     TIntermTyped* expression;
