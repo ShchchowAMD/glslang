@@ -873,6 +873,13 @@ int TPpContext::CPPextension(TPpToken* ppToken)
     int token = scanToken(ppToken);
     char extensionName[MaxTokenLength + 1];
 
+    // extension directives must occur before any non-preprocessor tokens
+    if (parseContext.getPpContext()->nonMacroStarted == true) {
+        parseContext.ppError(ppToken->loc, "extension directives must occur before any non-preprocessor tokens", "#extension", "");
+        return token;
+    }
+
+
     if (token=='\n') {
         parseContext.ppError(ppToken->loc, "extension name not specified", "#extension", "");
         return token;
