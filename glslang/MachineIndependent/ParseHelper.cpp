@@ -3333,7 +3333,7 @@ void TParseContext::globalQualifierTypeCheck(const TSourceLoc& loc, const TQuali
                 profileRequires(loc, ENoProfile, 150, nullptr, "vertex input arrays");
             }
             if (publicType.basicType == EbtDouble)
-                profileRequires(loc, ~EEsProfile, 410, nullptr, "vertex-shader `double` type input");
+                profileRequires(loc, ~EEsProfile, 410, E_GL_ARB_vertex_attrib_64bit, "vertex-shader `double` type input");
             if (qualifier.isAuxiliary() || qualifier.isInterpolation() || qualifier.isMemory() || qualifier.invariant)
                 error(loc, "vertex input cannot be further qualified", "", "");
             break;

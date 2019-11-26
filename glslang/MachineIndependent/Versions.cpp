@@ -181,6 +181,7 @@ void TParseVersions::initializeExtensionBehavior()
     extensionBehavior[E_GL_ARB_derivative_control]           = EBhDisable;
     extensionBehavior[E_GL_ARB_shader_texture_image_samples] = EBhDisable;
     extensionBehavior[E_GL_ARB_viewport_array]               = EBhDisable;
+    extensionBehavior[E_GL_ARB_vertex_attrib_64bit]          = EBhDisable;
     extensionBehavior[E_GL_ARB_gpu_shader_int64]             = EBhDisable;
     extensionBehavior[E_GL_ARB_shader_ballot]                = EBhDisable;
     extensionBehavior[E_GL_ARB_sparse_texture2]              = EBhDisable;
@@ -378,6 +379,7 @@ void TParseVersions::getPreamble(std::string& preamble)
             "#define GL_ARB_derivative_control 1\n"
             "#define GL_ARB_shader_texture_image_samples 1\n"
             "#define GL_ARB_viewport_array 1\n"
+            "#define GL_ARB_vertex_attrib_64bit 1\n"
             "#define GL_ARB_gpu_shader_int64 1\n"
             "#define GL_ARB_shader_ballot 1\n"
             "#define GL_ARB_sparse_texture2 1\n"

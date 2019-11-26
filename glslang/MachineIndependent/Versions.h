@@ -133,6 +133,7 @@ const char* const E_GL_ARB_shader_group_vote            = "GL_ARB_shader_group_v
 const char* const E_GL_ARB_derivative_control           = "GL_ARB_derivative_control";
 const char* const E_GL_ARB_shader_texture_image_samples = "GL_ARB_shader_texture_image_samples";
 const char* const E_GL_ARB_viewport_array               = "GL_ARB_viewport_array";
+const char* const E_GL_ARB_vertex_attrib_64bit          = "GL_ARB_vertex_attrib_64bit";
 const char* const E_GL_ARB_gpu_shader_int64             = "GL_ARB_gpu_shader_int64";
 const char* const E_GL_ARB_shader_ballot                = "GL_ARB_shader_ballot";
 const char* const E_GL_ARB_sparse_texture2              = "GL_ARB_sparse_texture2";
